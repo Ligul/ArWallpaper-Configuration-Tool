@@ -27,6 +27,7 @@ namespace ArWallpaper_Configuration_Tool
             public float f;
             public string eyesGap;
             public string ppcm;
+            public decimal lockedHeadDistance;
             public bool drawWireframe;
             public bool projectionMode;
             public bool lockZ;
@@ -44,6 +45,7 @@ namespace ArWallpaper_Configuration_Tool
             current.f = f;
             current.eyesGap = eyesGap.Text;
             current.ppcm = ppcm.Text;
+            current.lockedHeadDistance = faceDistance.Value;
             current.drawWireframe = drawWireframe.Checked;
             current.projectionMode = projectionMode.Checked;
             current.lockZ = lockZ.Checked;
@@ -60,6 +62,7 @@ namespace ArWallpaper_Configuration_Tool
             f = conf.f;
             eyesGap.Text = conf.eyesGap;
             ppcm.Text = conf.ppcm;
+            faceDistance.Value = conf.lockedHeadDistance;
             drawWireframe.Checked = conf.drawWireframe;
             projectionMode.Checked = conf.projectionMode;
             lockZ.Checked = conf.lockZ;
@@ -67,7 +70,6 @@ namespace ArWallpaper_Configuration_Tool
         bool ReadConfig(string cfgPath)
         {
             string currentLine;
-            string currentProperty;
             string[] splitted;
             Dictionary<string, string> cfg = new Dictionary<string, string>();
             try
@@ -144,6 +146,14 @@ namespace ArWallpaper_Configuration_Tool
             if (!float.TryParse(currentLine, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out tmpFloat))
                 return false;
             ppcm.Text = currentLine;
+            //setting lockedHeadDistance value
+            if (cfg.TryGetValue("lockedHeadDistance", out currentLine))
+            {
+                System.Diagnostics.Debug.WriteLine("lockedHeadDistance");
+                if (!Int32.TryParse(currentLine, out tmpInt))
+                    return false;
+                faceDistance.Value = tmpInt;
+            }
             //setting drawWireframe value
             if (!cfg.TryGetValue("drawWireframe", out currentLine))
                 return false;
@@ -191,6 +201,8 @@ namespace ArWallpaper_Configuration_Tool
                 cfgFile.Write("f                   =  " + conf.f + "\n");
                 cfgFile.Write("eyesGapInCm         =  " + conf.eyesGap + "\n");
                 cfgFile.Write("pixelPerCm          =  " + conf.ppcm + "\n");
+                if (conf.lockZ)
+                    cfgFile.Write("lockedHeadDistance  =  " + conf.lockedHeadDistance + "\n");
                 cfgFile.Write("drawWireframe       =  " + conf.drawWireframe + "\n");
                 cfgFile.Write("projectionMode      =  " + conf.projectionMode + "\n");
                 cfgFile.Write("lockZ               =  " + conf.lockZ);
@@ -209,6 +221,7 @@ namespace ArWallpaper_Configuration_Tool
             if (!ReadConfig(cfgPath)) {
                 MessageBox.Show("Could not load configuration file.\nSome (possibly all) data was not loaded.");
             }
+            faceDistance.Enabled = lockZ.Checked;
         }
 
         private void ppcm_KeyPress(object sender, KeyPressEventArgs e)
@@ -267,6 +280,11 @@ namespace ArWallpaper_Configuration_Tool
             {
                 MessageBox.Show("Could not save configuration file.");
             }
+        }
+
+        private void lockZ_Click(object sender, EventArgs e)
+        {
+            faceDistance.Enabled = lockZ.Checked;
         }
     }
 }

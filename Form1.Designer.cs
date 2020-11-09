@@ -54,6 +54,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lockZ = new System.Windows.Forms.CheckBox();
             this.projectionMode = new System.Windows.Forms.CheckBox();
+            this.faceDistance = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.videoCaptureDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraNear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraFar)).BeginInit();
@@ -62,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.minFaceSize)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.faceDistance)).BeginInit();
             this.SuspendLayout();
             // 
             // drawWireframe
@@ -328,6 +330,7 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.faceDistance);
             this.groupBox4.Controls.Add(this.lockZ);
             this.groupBox4.Controls.Add(this.projectionMode);
             this.groupBox4.Controls.Add(this.drawWireframe);
@@ -349,6 +352,7 @@
             this.lockZ.TabIndex = 2;
             this.lockZ.Text = "Lock Z Axis";
             this.lockZ.UseVisualStyleBackColor = true;
+            this.lockZ.Click += new System.EventHandler(this.lockZ_Click);
             // 
             // projectionMode
             // 
@@ -361,6 +365,19 @@
             this.projectionMode.TabIndex = 1;
             this.projectionMode.Text = "Projection mode";
             this.projectionMode.UseVisualStyleBackColor = true;
+            // 
+            // faceDistance
+            // 
+            this.faceDistance.Enabled = false;
+            this.faceDistance.Location = new System.Drawing.Point(114, 48);
+            this.faceDistance.Name = "faceDistance";
+            this.faceDistance.Size = new System.Drawing.Size(48, 22);
+            this.faceDistance.TabIndex = 16;
+            this.faceDistance.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             // 
             // MainForm
             // 
@@ -388,6 +405,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.faceDistance)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -420,6 +438,7 @@
         private System.Windows.Forms.TextBox cameraRatio;
         private System.Windows.Forms.TextBox ppcm;
         private System.Windows.Forms.TextBox eyesGap;
+        private System.Windows.Forms.NumericUpDown faceDistance;
     }
 }
 
